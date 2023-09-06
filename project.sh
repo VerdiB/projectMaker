@@ -1,4 +1,4 @@
-#! usr/bin/bash
+#! /bin/bash
 
 projectName=$1
 syntax=$2
@@ -35,7 +35,7 @@ else
 	MY_PATH := Release/
 endif
 
-TARGET := \$(MY_PATH)$projectName
+TARGET := \$(MY_PATH)PLACEHOLDER_PROJECT_NAME
 
 # LDLIBS := `pkg-config --libs glib-2.0` # adds libraries to the linker
 LDLIBS := ``
@@ -69,8 +69,20 @@ EOF
 
 makefile_content="${makefile_content/PLACEHOLDER_COMPILER/$compiler}"
 makefile_content="${makefile_content/PLACEHOLDER_SYNTAX_VERSION/$syntaxVersion}"
+makefile_content="${makefile_content/PLACEHOLDER_PROJECT_NAME/$projectName}"
+
+main_content=$(cat << 'EOF'
+#include <iostream>
+
+int main(int argc, char *argv[]) {
+	std::cout << "Hello World" << std::endl;
+	return 0;
+}
+EOF
+)
 
 
 echo "$makefile_content" > $projectName/Makefile
+echo "$main_content" > $projectName/main.$syntax
 
 code ./$projectName
