@@ -3,14 +3,14 @@
 projectName=$1
 syntax=$2
 
-mkdir $projectName && touch ./$projectName/main.$syntax
+mkdir -p $projectName/src && touch ./$projectName/src/main.$syntax
 
 syntaxVersion=""
 compiler=""
 
 if [ $syntax == "cpp" ]; then
 	compiler="g++"
-	syntaxVersion="-std=c++17"
+	syntaxVersion="-std=c++20"
 elif [ $syntax == "c" ]; then
 	compiler="gcc"
 	syntaxVersion="-std=c99"
@@ -42,10 +42,12 @@ LDLIBS := ``
 # CFLAGS_LIB := `pkg-config --cflags glib-2.0`
 CFLAGS_LIB := ``
 
-SRCS := $(wildcard *.cpp)
-SRCS += $(wildcard *.c)
-SRCS += $(wildcard *.hpp)
-SRCS += $(wildcard *.h)
+SRCS_DIR := src/
+
+SRCS := $(wildcard $(SRCS_DIR)/*.cpp) $(wildcard $(SRCS_DIR)/*.h)
+# SRCS += $(wildcard *.c)
+# SRCS += $(wildcard *.hpp)
+# SRCS += $(wildcard *.h)
 # SRCS := $(filter-out unittest.cpp, $(SRCS))
 all: $(TARGET)
 
@@ -54,10 +56,10 @@ $(TARGET): $(SRCS)
 	$(CC) $(CFLAGS) $(CFLAGS_LIB) -o $@ $^ $(LDLIBS)
 
 fmt:
-	clang-format -style='{PointerAlignment: Left}' -i $(SRCS)
+	clang-format -style='{BasedOnStyle: GNU, PointerAlignment: Left}' -i $(SRCS)
 
 chk:
-	cppcheck -q  --check-config --enable=all --inconclusive -$(SYNTAX_VERSION) .
+	cppcheck -q  --check-config --enable=all --max-ctu-depth=2 --inconclusive --output-file=cppcheck.log -$(SYNTAX_VERSION) .
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind.log ./$(TARGET)
 
 clean:
@@ -83,6 +85,6 @@ EOF
 
 
 echo "$makefile_content" > $projectName/Makefile
-echo "$main_content" > $projectName/main.$syntax
+echo "$main_content" > $projectName/src/main.$syntax
 
 code ./$projectName
