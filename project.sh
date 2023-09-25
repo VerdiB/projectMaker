@@ -54,10 +54,10 @@ $(TARGET): $(SRCS)
 	$(CC) $(CFLAGS) $(CFLAGS_LIB) -o $@ $^ $(LDLIBS)
 
 fmt:
-	clang-format -style='{PointerAlignment: Left}' -i $(SRCS)
+	clang-format -style='{BasedOnStyle: GNU, PointerAlignment: Left}' -i $(SRCS)
 
 chk:
-	cppcheck -q  --check-config --enable=all --inconclusive -$(SYNTAX_VERSION) .
+	cppcheck -q  --check-config --enable=all --max-ctu-depth=2 --inconclusive --output-file=cppcheck.log -$(SYNTAX_VERSION) .
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind.log ./$(TARGET)
 
 clean:
