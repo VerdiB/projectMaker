@@ -14,6 +14,8 @@ else
 	exit 1
 fi
 
+touch ./$projectName/src/main.$extension
+
 makefile_content=$(cat << 'EOF'
 CC := PLACEHOLDER_COMPILER
 SYNTAX_VERSION := PLACEHOLDER_SYNTAX_VERSION
@@ -81,3 +83,4 @@ EOF
 
 
 echo "$makefile_content" > $projectName/Makefile
+echo "$main_content" > $projectName/src/main.$syntax
