@@ -28,5 +28,5 @@ index_content=$(cat << 'EOF'
 </html>
 EOF
 )
-index_content="${index_content/PLACEHOLDER_PROJECTNAME/projectName}"
+index_content="${index_content/PLACEHOLDER_PROJECTNAME/$projectName}"
 echo "$index_content" >$projectName/src/index.php
