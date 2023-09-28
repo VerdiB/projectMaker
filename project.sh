@@ -18,7 +18,7 @@ elif [ $syntax == "c" ]; then
 	source c.sh "$projectName" "gcc" "-std=c99"
 
 elif [ $syntax == "py" ]; then
-	# source py.sh "$projectName" "false"
+	source py.sh "$projectName" "$syntax"
 	echo "todo py"
 
 elif [ $syntax == "php" ]; then
@@ -26,7 +26,7 @@ elif [ $syntax == "php" ]; then
 	echo "todo php improvements"
 
 elif [ $syntax == "py-web" ]; then
-	# source py.sh "true"
+	source py.sh "$projectName" "$syntax"
 	echo "todo py-web"
 
 else
