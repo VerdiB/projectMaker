@@ -4,11 +4,34 @@ projectName=$1
 compiler=$2
 syntaxVersion=$3
 extension=""
+main_content=""
 
 if [ $compiler == "g++" ]; then
 	extension="cpp"
+
+	main_content=$(cat << 'EOF'
+#include <iostream>
+
+int main(int argc, char *argv[]) {
+	std::cout << "Hello World" << std::endl;
+	return 0;
+}
+EOF
+)
+
 elif [ $compiler == "gcc" ]; then
 	extension="c"
+
+	main_content=$(cat << 'EOF'
+#include <stdio.h>
+
+int main(int argc, char** argv) {
+	printf("Hello World\n");
+	return 0;
+}
+EOF
+)
+
 else
 	echo "Compiler not supported"
 	exit 1
@@ -71,15 +94,7 @@ makefile_content="${makefile_content/PLACEHOLDER_SYNTAX_VERSION/$syntaxVersion}"
 makefile_content="${makefile_content/PLACEHOLDER_PROJECT_NAME/$projectName}"
 makefile_content="${makefile_content/PLACEHOLDER_EXTENSION/$extension}"
 
-main_content=$(cat << 'EOF'
-#include <iostream>
 
-int main(int argc, char *argv[]) {
-	std::cout << "Hello World" << std::endl;
-	return 0;
-}
-EOF
-)
 
 
 echo "$makefile_content" > $projectName/Makefile
