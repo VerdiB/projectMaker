@@ -6,19 +6,19 @@ pyLibraryCommand=""
 py_content=$(cat << 'EOF'
 if __name__ == '__main__':
     print("Hello World")
-EOF    
+EOF
 )
 
 touch $projectName/src/main.py
 
-echo $projectName/pyhton3 -m venv .venv
+if [ $pyCommand == "py" ]; then
+    echo "running base script with empty virtual env"
 
-if [$pyCommand == "py" ] then;
-    echo "running base script"
-
-elif [$pyCommand == "py-web"] then;
+elif [ $pyCommand == "py-web" ]; then
     echo "running the pip module"
-    pyLibraryCommand=$projectName/.vnv/bin/pip3 install flask
+    pyLibraryCommand="$projectName/.venv/bin/pip3 install flask"
+fi
 
-echo $pyLibraryCommand
+eval "python3 -m venv $projectName/.venv"
+eval "$pyLibraryCommand"
 echo "$py_content" > $projectName/src/main.py
