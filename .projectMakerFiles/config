@@ -1,0 +1,18 @@
+
+# Configuration variables for C language
+C_COMPILER=gcc
+C_FLAGS="-Wall -Werror"
+
+# Configuration variables for C++ language
+CPP_COMPILER=g++
+CPP_FLAGS="-Wall -Werror"
+
+MAKE_TYPE=Makefile
+
+# Configuration variables for PHP language
+PHP_COMPILER=php
+PHP_FLAGS="-l"
+
+# Configuration variables for Python language
+PYTHON_INTERPRETER=python3
+PYTHON_FLAGS="-B"

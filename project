@@ -3,6 +3,8 @@
 projectName=$1
 syntax=$2
 
+file_dir=./.projectMakerFiles
+
 mkdir -p $projectName/src
 
 # syntaxVersion=""
@@ -11,22 +13,22 @@ mkdir -p $projectName/src
 if [ $syntax == "cpp" ]; then
 	# compiler="g++"
 	# syntaxVersion="-std=c++20"
-	source c.sh "$projectName" "g++" "-std=c++20"
+	$file_dir/c.sh "$projectName" "g++" "-std=c++20"
 elif [ $syntax == "c" ]; then
 	# compiler="gcc"
 	# syntaxVersion="-std=c99"
-	source c.sh "$projectName" "gcc" "-std=c99"
+	$file_dir/c.sh "$projectName" "gcc" "-std=c99"
 
 elif [ $syntax == "py" ]; then
-	source py.sh "$projectName" "$syntax"
+	$file_dir/py.sh "$projectName" "$syntax"
 	echo "todo py"
 
 elif [ $syntax == "php" ]; then
-	source php.sh "$projectName"
+	$file_dir/php.sh "$projectName"
 	echo "todo php improvements"
 
 elif [ $syntax == "py-web" ]; then
-	source py.sh "$projectName" "$syntax"
+	$file_dir/py.sh "$projectName" "$syntax"
 	echo "todo py-web"
 
 else
