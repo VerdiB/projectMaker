@@ -2,12 +2,15 @@
 
 projectName=$1
 compiler=$2
-syntaxVersion=$3
+syntaxVersion=""
 extension=""
 main_content=""
+config=.projectMakerFiles/config
+make=$(grep -E "^MAKE_TYPE" $config | cut -d '=' -f2)
 
 if [ $compiler == "g++" ]; then
 	extension="cpp"
+	syntaxVersion=$(grep -E "^CPP_VERSION" $config | cut -d '=' -f2-)
 
 	main_content=$(cat << 'EOF'
 #include <iostream>
@@ -21,6 +24,7 @@ EOF
 
 elif [ $compiler == "gcc" ]; then
 	extension="c"
+	syntaxVersion=$(grep -E "^C_VERSION" $config | cut -d '=' -f2-)
 
 	main_content=$(cat << 'EOF'
 #include <stdio.h>
@@ -39,6 +43,11 @@ fi
 
 touch ./$projectName/src/main.$extension
 
-touch ./$projectName/Makefile
+cp .projectMakerFiles/$make $projectName/
 
-echo "$main_content" > $projectName/src/main.$syntax
+sed -i -e "s/PLACEHOLDER_COMPILER/$compiler/g" "$projectName/$make"
+sed -i -e "s/PLACEHOLDER_SYNTAX_VERSION/$syntaxVersion/g" "$projectName/$make"
+sed -i -e "s/PLACEHOLDER_PROJECT_NAME/$projectName/g" "$projectName/$make"
+sed -i -e "s/PLACEHOLDER_EXTENSION/$extension/g" "$projectName/$make"
+
+echo "$main_content" > $projectName/src/main.$extension

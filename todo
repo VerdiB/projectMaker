@@ -1,4 +1,4 @@
 Todo:
 - let the file(s) project and/or c.sh accept a config file
-- make a config file for starters different build types (make/cmake)
+- make a config file for starters different build types (cmake)
 

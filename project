@@ -3,7 +3,7 @@
 projectName=$1
 syntax=$2
 
-file_dir=./.projectMakerFiles
+file_dir=.projectMakerFiles
 
 mkdir -p $projectName/src
 
@@ -13,11 +13,11 @@ mkdir -p $projectName/src
 if [ $syntax == "cpp" ]; then
 	# compiler="g++"
 	# syntaxVersion="-std=c++20"
-	$file_dir/c.sh "$projectName" "g++" "-std=c++20"
+	$file_dir/c.sh "$projectName" "g++"
 elif [ $syntax == "c" ]; then
 	# compiler="gcc"
 	# syntaxVersion="-std=c99"
-	$file_dir/c.sh "$projectName" "gcc" "-std=c99"
+	$file_dir/c.sh "$projectName" "gcc"
 
 elif [ $syntax == "py" ]; then
 	$file_dir/py.sh "$projectName" "$syntax"
