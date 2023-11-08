@@ -1,4 +1,4 @@
-#! bin/bash
+#! /bin/bash
 
 projectName=$1
 pyCommand=$2
@@ -9,16 +9,16 @@ if __name__ == '__main__':
 EOF
 )
 
-touch $projectName/src/main.py
+touch ./$projectName/src/main.py
 
 if [ $pyCommand == "py" ]; then
     echo "running base script with empty virtual env"
 
 elif [ $pyCommand == "py-web" ]; then
     echo "running the pip module"
-    pyLibraryCommand="$projectName/.venv/bin/pip3 install flask"
+    pyLibraryCommand="./$projectName/.venv/bin/pip3 install flask"
 fi
 
-eval "python3 -m venv $projectName/.venv"
+eval "python3 -m venv ./$projectName/.venv"
 eval "$pyLibraryCommand"
-echo "$py_content" > $projectName/src/main.py
+echo "$py_content" > ./$projectName/src/main.py
