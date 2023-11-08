@@ -8,7 +8,7 @@ CPP_COMPILER=g++
 CPP_VERSION="-std=c++20"
 
 MAKE_TYPE=Makefile
-
+#MAKE_TYPE=CMakeLists.txt
 # Configuration variables for PHP language
 PHP_COMPILER=php
 PHP_FLAGS="-l"
